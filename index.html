@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Monitoring Landing Page</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f0f0f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        
+        /* Navigation Bar */
+        .navbar {
+            background-color: #00796b;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        /* Form Styles */
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+        form {
+            margin: 20px 0;
+        }
+        input[type="text"], input[type="number"], input[type="password"], select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #00796b;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #004d40;
+        }
+
+        /* Section Visibility */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <h2>Health Monitor</h2>
+        <nav>
+            <a href="#" onclick="showSection('register')">Register</a>
+            <a href="#" onclick="showSection('login')">Login</a>
+            <a href="#" onclick="showSection('monitor')">Monitor</a>
+        </nav>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Registration Form -->
+        <div id="register" class="hidden">
+            <h2>Register</h2>
+            <form onsubmit="registerUser(event)">
+                <input type="text" id="name" placeholder="Name" required>
+                <input type="number" id="age" placeholder="Age" required>
+                <input type="number" id="weight" placeholder="Weight (kg)" required>
+                <input type="number" id="height" placeholder="Height (cm)" required>
+                <select id="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+                <input type="text" id="registrationNumber" placeholder="Registration Number" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+
+        <!-- Login Form -->
+        <div id="login" class="hidden">
+            <h2>Login</h2>
+            <form onsubmit="loginUser(event)">
+                <input type="text" id="loginRegNumber" placeholder="Registration Number" required>
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+
+        <!-- Monitor Section -->
+        <div id="monitor" class="hidden">
+            <h2>Monitoring Tools</h2>
+            <p>Welcome to your health monitoring dashboard!</p>
+            <button onclick="showHeartRateMonitor()" id="heartrate">Heart Rate Monitor</button>
+            <button onclick="showSugarMonitor()" id="sugar">Sugar Level Monitor</button>
+            <div id="monitorMessage"></div>
+        </div>
+    </div>
+
+    <script>
+        // Utility Functions
+        function showSection(section) {
+            document.getElementById('register').classList.add('hidden');
+            document.getElementById('login').classList.add('hidden');
+            document.getElementById('monitor').classList.add('hidden');
+            document.getElementById(section).classList.remove('hidden');
+        }
+
+        // Registration
+        function registerUser(event) {
+            event.preventDefault();
+            const user = {
+                name: document.getElementById('name').value,
+                age: document.getElementById('age').value,
+                weight: document.getElementById('weight').value,
+                height: document.getElementById('height').value,
+                gender: document.getElementById('gender').value,
+                registrationNumber: document.getElementById('registrationNumber').value,
+                password: document.getElementById('password').value
+            };
+            localStorage.setItem('user', JSON.stringify(user));
+            alert('Registration successful! Please login.');
+            showSection('login');
+        }
+
+        // Login
+        function loginUser(event) {
+            event.preventDefault();
+            const savedUser = JSON.parse(localStorage.getItem('user'));
+            const regNumber = document.getElementById('loginRegNumber').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (savedUser && savedUser.registrationNumber === regNumber && savedUser.password === password) {
+                alert('Login successful!');
+                showSection('monitor');
+            } else {
+                alert('Incorrect registration number or password.');
+            }
+        }
+
+        // Monitoring Tools Navigation
+        function showHeartRateMonitor() {
+            let heartRate=document.getElementById('heartrate');
+            heartRate.addEventListener('click',function(e){
+                e.preventDefault();
+                window.location.href="heartrate.html"
+            })
+        }
+
+        function showSugarMonitor() {
+            let sugar=document.getElementById('sugar');
+            sugar.addEventListener('click',function(e){
+                e.preventDefault();
+                window.location.href="sugar.html"
+            })
+        }
+
+        // Initial display
+        showSection('register');
+    </script>
+</body>
+</html>
