@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Rate Monitor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #e0f7fa;
+        }
+        .container {
+            text-align: center;
+            max-width: 350px;
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            position: relative;
+        }
+        .container h1 {
+            font-size: 1.8em;
+            color: #333;
+        }
+        #heartRateIndicator {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 20px auto;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+            display: block;
+        }
+        .message {
+            font-size: 1em;
+            color: #555;
+            margin-top: 20px;
+        }
+        .normal { background-color: green; }
+        .low { background-color: orange; }
+        .high { background-color: red; }
+        input[type="number"] {
+            padding: 10px;
+            width: 80%;
+            font-size: 1em;
+            margin: 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #ffffff;
+            background-color: #00796b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        button:hover {
+            background-color: #004d40;
+        }
+        .heart-img {
+            width: 50px;
+            position: absolute;
+            top: -25px;
+            left: calc(50% - 25px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://img.icons8.com/ios-filled/50/ff5252/heart-with-pulse.png" class="heart-img" alt="Heart Beat">
+        <h1>Heart Rate Monitor</h1>
+        <label for="heartRateInput">Enter Heart Rate:</label>
+        <input type="number" id="heartRateInput" placeholder="Enter BPM">
+        <button onclick="checkHeartRate()">Check</button>
+        
+        <div id="heartRateIndicator"></div>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        function checkHeartRate() {
+            const heartRate = document.getElementById("heartRateInput").value;
+            const indicator = document.getElementById("heartRateIndicator");
+            const message = document.getElementById("message");
+            
+            if (heartRate >= 60 && heartRate <= 100) {
+                indicator.className = 'normal';
+                message.textContent = "Your heart rate is normal.";
+            } else if (heartRate < 60) {
+                indicator.className = 'low';
+                message.textContent = "Your heart rate is low. Please contact a doctor.";
+            } else if (heartRate > 100) {
+                indicator.className = 'high';
+                message.textContent = "Your heart rate is high. Please contact a doctor.";
+            } else {
+                message.textContent = "Please enter a valid heart rate.";
+            }
+        }
+    </script>
+</body>
+</html>
